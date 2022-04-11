@@ -8,60 +8,43 @@ import java.util.Scanner;
 public class scrabble {
 
 	public static void main(String[] args) {
+		String tab[] = new String[22506];
 		String motModif = "";
 		String dictionnaire = "C:\\Users\\ib\\Documents\\Java\\partie1\\partie1\\ateliers\\Atelier1\\dictionnaire.txt";
-		int nbrMots = comptageDictionnaire(dictionnaire);
-		String mot =  selectionMot(nbrMots, dictionnaire);
+		creationTableau(dictionnaire,tab);
+		String mot =  selectionMot(tab);
 		System.out.println(mot);
 		motModif =melangeMot(mot);
 		verifJoueur(mot);
 	}
 	
-	// on compte le nombre de mots dans le dictionnaire
-	
-	public static int comptageDictionnaire(String chemin) {
-		int nbrMots = 0;
+	public static void creationTableau(String chemin,String tab[]) {
+		int i = 0;
 		try {
 			FileInputStream fis = new FileInputStream(chemin);
 			Scanner sc = new Scanner(fis);
 			while(sc.hasNextLine()) {
-				sc.nextLine();
-				nbrMots++;
+			tab[i] = sc.nextLine();
+			i++;
+			
 			}
 			sc.close();
 			fis.close();
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return nbrMots;
 	}
-	
 	// Je choisis un mot au hasard
 	
-	public static String selectionMot(int nbrMots, String chemin) {
+	public static String selectionMot(String tab[]) {
 		String mot = null;
-		int alea = (int) (Math.random() * nbrMots);
-		try {
-			FileInputStream fis = new FileInputStream(chemin);
-			Scanner sc = new Scanner(fis);
-			for(int i = 0; i < alea; i++ ) {
-				sc.nextLine();
-			}
-			mot = sc.nextLine();
-			sc.close();
-			fis.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		int alea = (int) (Math.random() * 22506);
+			mot = tab[alea];
+			return mot;
 		}
-		
-		
-		
-		return mot;
-	}
 	
 	// je melange le mot après l'avoir découpé et entré dans un tableau char
 	
@@ -96,6 +79,8 @@ public class scrabble {
 		
 	
 	}
+	
+	// je demande au joueur de faire une proposition 
 	
 	public static boolean verifJoueur(String mot) {
 		boolean correct = false;
