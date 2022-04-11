@@ -6,16 +6,27 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class scrabble {
+	
+	static Scanner sc;
 
 	public static void main(String[] args) {
 		String tab[] = new String[22506];
+		sc = new Scanner(System.in);
+		String decision = "o";
+		int scoreJoueur = 0;
 		String motModif = "";
 		String dictionnaire = "C:\\Users\\ib\\Documents\\Java\\partie1\\partie1\\ateliers\\Atelier1\\dictionnaire.txt";
-		creationTableau(dictionnaire,tab);
-		String mot =  selectionMot(tab);
-		System.out.println(mot);
-		motModif =melangeMot(mot);
-		verifJoueur(mot);
+		String mot;
+		while(decision.equalsIgnoreCase("o")) {
+			creationTableau(dictionnaire,tab);
+			mot =  selectionMot(tab);
+			motModif =melangeMot(mot);
+			scoreJoueur += verifJoueur(mot, tab, motModif);
+			System.out.println("Vous avez un total de " + scoreJoueur);
+			System.out.println("Voulez vous continuer ? o/n");
+			decision = sc.nextLine();
+		}
+		
 	}
 	
 	public static void creationTableau(String chemin,String tab[]) {
@@ -74,7 +85,6 @@ public class scrabble {
 			motModif += tab[i];
 		}
 		System.out.println("");
-		System.out.println(motModif);
 		return motModif;
 		
 	
@@ -82,17 +92,39 @@ public class scrabble {
 	
 	// je demande au joueur de faire une proposition 
 	
-	public static boolean verifJoueur(String mot) {
-		boolean correct = false;
-		String proposition = null;
-		Scanner sc = new Scanner(System.in);
-		while(!mot.equalsIgnoreCase(proposition)) {
-		System.out.println("Veuillez écrire votre proposition :");
+	public static int verifJoueur(String mot, String tab[],String motModif) {
+		int points = 0;
+		boolean ok = false;
+		String verif[] = new String[50];
+		int a = 0;
+		String proposition = "";
+		while(!proposition.equalsIgnoreCase("q")) {
+		System.out.println(motModif);
+		System.out.println("Veuillez écrire votre proposition, pour quitter tapez q et Entree :");
 		proposition = sc.nextLine();
+		for(int j = 0; j < verif.length; j++) {
+			if(!proposition.equalsIgnoreCase(verif[j])) {
+				ok = true;
+			}
+			else {
+				ok = false;
+			}
 		}
-		System.out.println("Bravo ! Le mot est bien " + mot);
-		correct = true;
-		return correct;
+		for(int i = 0; i < 22506; i++) {
+			
+			if(proposition.equalsIgnoreCase(tab[i]) && ok == true) {
+				System.out.println("Bravo");
+				points += proposition.length();
+				System.out.println(" + " + points + " points gagnés!" );
+				verif[a] = proposition;
+			} 
+		}
+		if(ok == false) {
+			System.out.println("Essayez un autre mot !");
+		}
+		}
+		System.out.println("Le mot était " + mot);
+		return points;
 	}
 
 }
