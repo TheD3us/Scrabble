@@ -29,6 +29,8 @@ public class scrabble {
 		
 	}
 	
+	// Créer un tableau avec le dictionnaire
+	
 	public static void creationTableau(String chemin,String tab[]) {
 		int i = 0;
 		try {
