@@ -95,36 +95,80 @@ public class scrabble {
 	// je demande au joueur de faire une proposition 
 	
 	public static int verifJoueur(String mot, String tab[],String motModif) {
-		int points = 0;
-		boolean ok = false;
-		String verif[] = new String[50];
-		int a = 0;
+		
+		
+		String compProposition = "";
 		String proposition = "";
+		boolean ok;
+		int points = 0;
+		int compteurReponse = 0;
+	
 		while(!proposition.equalsIgnoreCase("q")) {
+		String verif[] = new String[50];
+		char verifChar[] = new char[mot.length()];
+		compProposition = "";
 		System.out.println(motModif);
 		System.out.println("Veuillez écrire votre proposition, pour quitter tapez q et Entree :");
 		proposition = sc.nextLine();
+		
+		
+		for(int i = 0; i < mot.length(); i++) {
+			verifChar[i] = mot.charAt(i);
+			
+		}
+		
+		
+		for(int j = 0; j< proposition.length(); j++) {
+
+		for(int i = 0; i < mot.length(); i++) {
+
+			if(verifChar[i] == proposition.charAt(j)) {
+				compProposition += verifChar[i];
+				verifChar[i] = ' ' ;
+				i = mot.length();
+			}
+		}
+		}
+		
+		
+		if(compProposition.equalsIgnoreCase(proposition)) {
+			ok = true;
+		} else {
+			ok = false;
+		}
+		
+		// je vérifie dans le tableau verif si le mot a déjà été rentré si il est trouvé
+		// la boucle s'arrête et renvoie false sur ok
 		for(int j = 0; j < verif.length; j++) {
-			if(!proposition.equalsIgnoreCase(verif[j])) {
+			if(!proposition.equalsIgnoreCase(verif[j]) && ok == true) {
 				ok = true;
 			}
 			else {
 				ok = false;
+				j = verif.length;
 			}
 		}
+		
+		
 		for(int i = 0; i < 22506; i++) {
 			
 			if(proposition.equalsIgnoreCase(tab[i]) && ok == true) {
 				System.out.println("Bravo");
 				points += proposition.length();
 				System.out.println(" + " + points + " points gagnés!" );
-				verif[a] = proposition;
-			} 
+				verif[compteurReponse] = proposition;
+				compteurReponse++;
+				ok = true;
+				i = 22506;
+			} else {
+				ok = false;
+			}
 		}
+		
 		if(ok == false) {
 			System.out.println("Essayez un autre mot !");
 		}
-		}
+	}
 		System.out.println("Le mot était " + mot);
 		return points;
 	}
