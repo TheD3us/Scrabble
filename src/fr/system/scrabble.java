@@ -135,12 +135,13 @@ public class scrabble {
 			ok = true;
 		} else {
 			ok = false;
+			
 		}
 		
 		// je vérifie dans le tableau verif si le mot a déjà été rentré si il est trouvé
 		// la boucle s'arrête et renvoie false sur ok
 		for(int j = 0; j < verif.length; j++) {
-			if(!proposition.equalsIgnoreCase(verif[j]) && ok == true) {
+			if(proposition.equalsIgnoreCase(verif[j]) == false && ok == true) {
 				ok = true;
 			}
 			else {
@@ -149,10 +150,10 @@ public class scrabble {
 			}
 		}
 		
-		
+		if(ok == true) {
 		for(int i = 0; i < 22506; i++) {
 			
-			if(proposition.equalsIgnoreCase(tab[i]) && ok == true) {
+			if(proposition.equalsIgnoreCase(tab[i]) ) {
 				System.out.println("Bravo");
 				points += proposition.length();
 				System.out.println(" + " + points + " points gagnés!" );
@@ -164,6 +165,8 @@ public class scrabble {
 				ok = false;
 			}
 		}
+		}
+		
 		
 		if(ok == false) {
 			System.out.println("Essayez un autre mot !");
